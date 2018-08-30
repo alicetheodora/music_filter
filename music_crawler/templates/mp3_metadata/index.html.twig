@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MP3Metadata{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Album</th>
+                <th>Duration</th>
+                <th>Year</th>
+                <th>Genre</th>
+                <th>Comment</th>
+                <th>Contributor</th>
+                <th>Bitrate</th>
+                <th>Track</th>
+                <th>PopularityMeter</th>
+                <th>UniqueFileIdentifier</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mp3metadatum in mp3metadatas %}
+            <tr>
+                <td>{{ mp3metadatum.id }}</td>
+                <td>{{ mp3metadatum.title }}</td>
+                <td>{{ mp3metadatum.artist }}</td>
+                <td>{{ mp3metadatum.album }}</td>
+                <td>{{ mp3metadatum.duration }}</td>
+                <td>{{ mp3metadatum.year }}</td>
+                <td>{{ mp3metadatum.genre }}</td>
+                <td>{{ mp3metadatum.comment }}</td>
+                <td>{{ mp3metadatum.contributor }}</td>
+                <td>{{ mp3metadatum.bitrate }}</td>
+                <td>{{ mp3metadatum.track }}</td>
+                <td>{{ mp3metadatum.popularityMeter }}</td>
+                <td>{{ mp3metadatum.uniqueFileIdentifier }}</td>
+                <td>
+                    <a href="{{ path('mp3metadataedit', {'id': mp3metadatum.id}) }}">edit</a>
+                </td>
+                <td>
+                    <a href="{{ path('mp3metadatadelete', {'id': mp3metadatum.id}) }}">delete</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">Nu sunt inregistrari</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

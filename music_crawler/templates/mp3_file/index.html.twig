@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index Mp3Files{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+      <table class="table">
+          <thead>
+          <tr>
+              <th>Id</th>
+              <th>Fullpath</th>
+              <th>Basename</th>
+              <th>Uploaded file</th>
+              <th>Edit</th>
+              <th>Delete</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for mp3file in mp3files %}
+              <tr>
+                  <td>{{ mp3file.id }}</td>
+                  <td>{{ mp3file.fullpath }}</td>
+                  <td>{{ mp3file.basename }}</td>
+                  <td>{{ mp3file.uploadedFile }}</td>
+                  <td>
+                      <a href="{{ path('mp3fileedit', {'id': mp3file.id}) }}">edit</a>
+                  </td>
+                  <td>
+
+                      <a href="{{ path('mp3filedelete', {'id': mp3file.id}) }}">delete</a>
+                  </td>
+              </tr>
+          {% else %}
+              <tr>
+                  <td colspan="4">Nu sunt inregistrari</td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+  </div>
+</div>
+{% endblock %}
