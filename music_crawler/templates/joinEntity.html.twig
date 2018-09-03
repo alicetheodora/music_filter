@@ -3,8 +3,6 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
             <table class="table">
                 <thead>
                 <tr>
@@ -17,12 +15,9 @@
                     <th>duration</th>
                     <th>year</th>
                     <th>genre</th>
-                    <th>comment</th>
-                    <th>contributor</th>
                     <th>bitrate</th>
                     <th>track</th>
-                    <th>popularity_meter</th>
-                    <th>unique_file_identifier</th>
+                    <th>meta blob</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,15 +30,12 @@
                         <td>{{ mp3file.mp3metadata.title}}</td>
                         <td>{{ mp3file.mp3metadata.artist}}</td>
                         <td>{{ mp3file.mp3metadata.album}}</td>
-                        <td>{{ mp3file.mp3metadata.duration}}</td>
+                        <td>{{ mp3file.mp3metadata.duration}} min</td>
                         <td>{{ mp3file.mp3metadata.year}}</td>
                         <td>{{ mp3file.mp3metadata.genre}}</td>
-                        <td>{{ mp3file.mp3metadata.comment}}</td>
-                        <td>{{ mp3file.mp3metadata.contributor}}</td>
                         <td>{{ mp3file.mp3metadata.bitrate}}</td>
                         <td>{{ mp3file.mp3metadata.track}}</td>
-                        <td>{{ mp3file.mp3metadata.popularitymeter}}</td>
-                        <td>{{ mp3file.mp3metadata.uniquefileidentifier}}</td>
+                        <td>{{ mp3file.mp3blob.metadata}}</td>
                         <td>
                             <a href="{{ path('mp3fileedit', {'id': mp3file.id}) }}">edit</a>
                         </td>
@@ -60,6 +52,5 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
-    </div>
+
 {% endblock %}

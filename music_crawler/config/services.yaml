@@ -36,10 +36,15 @@ services:
         arguments:
             $targetDirectory: '%upload_directory%'
 
+    App\Service\FilePopulate:
+        arguments:
+            $targetDirectory: '%upload_directory%'
+
     App\EventListener\FileUploadListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: preRemove }
             - { name: doctrine.event_listener, event: postLoad }
+
 

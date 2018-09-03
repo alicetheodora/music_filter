@@ -17,37 +17,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Service\FileUploader;
+use App\Entity\MP3Metadata as MD;
+use App\Entity\MP3Blob as MB;
 /**
  * @Route("/mp3file")
  */
 class MP3FileController extends Controller
 {
-
-/**
-* @Route("/upload", name="mp3fileupload" , methods="GET|POST")
-*/
-    public function uploadFile(Request $request,FileUploader $fileUploader,FilePopulate $filePopulate):Response
-    {
-        /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-        $mp3file = new MP3File();
-        $form = $this->createForm(MP3FileType::class , $mp3file);
-        $form->handleRequest($request);
-
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($mp3file);
-            $em->flush();
-
-
-
-            return $this->redirect($this->generateUrl('mp3fileindex'));
-        }
-
-        return $this->render('upload.html.twig', array(
-            'form' => $form->createView()
-        ));
-    }
 
     /**
      * @Route("/join", name="mp3filejoin", methods="GET")
@@ -86,19 +62,22 @@ class MP3FileController extends Controller
     /**
      * @Route("/new", name="mp3filenew", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, FileUploader $uploader, FilePopulate $populate): Response
     {
         $mP3File = new MP3File();
+
         $form = $this->createForm(MP3FileType::class, $mP3File,['modify_file' => true]);
         $form->handleRequest($request);
 
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($mP3File);
             $em->flush();
 
-
-            return $this->redirectToRoute('mp3fileindex');
+            return $this->redirectToRoute('mp3filejoin');
         }
 
         return $this->render('mp3_file/new.html.twig', [

@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\Service\FilePopulate;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
@@ -9,7 +10,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use App\Entity\MP3File;
 use App\Service\FileUploader;
-use App\Service\FilePopulate;
+
 
 class FileUploadListener
 {
@@ -19,11 +20,11 @@ class FileUploadListener
 
     private $populate;
 
-    public function __construct(FileUploader $uploader,FilePopulate $populate, Filesystem $filesystem)
+    public function __construct(FileUploader $uploader, Filesystem $filesystem, FilePopulate $ppulate)
     {
         $this->uploader = $uploader;
         $this->filesystem = $filesystem;
-        $this->populate = $populate;
+        $this->populate= $ppulate;
     }
 
     public function prePersist(LifecycleEventArgs $args)
@@ -54,9 +55,12 @@ class FileUploadListener
         {
             $fileName = $this->uploader->upload($file);
             $entity->setUploadedFile($fileName);
-            $path= $entity->setFullpath($this->uploader->getTargetDirectory()."/{$fileName}");
+            $entity->setFullpath($this->uploader->getTargetDirectory()."/{$fileName}");
+            $full=$this->uploader->getTargetDirectory()."/{$fileName}";
             $entity->setBasename($file->getClientOriginalName());
-            $entity->$this->populate->populate($path);
+            $this->populate->populate($entity);
+
+
         }
         elseif ($file instanceof File)
         {
